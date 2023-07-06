@@ -35,3 +35,9 @@
 # Scons 
 .vscode/
 .sconsign.dblite
+
+.DS_Store
+
+*.os
+
+__pycache__/
