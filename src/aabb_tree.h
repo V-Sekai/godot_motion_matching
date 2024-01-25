@@ -5,9 +5,6 @@
 
 #include "core/io/resource.h"
 #include "core/object/class_db.h"
-#include "core/string/node_path.h"
-#include "core/templates/vector.h"
-#include "scene/main/node.h"
 
 struct AABBTree : public Resource {
 	GDCLASS(AABBTree, Resource)

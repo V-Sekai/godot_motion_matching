@@ -2,14 +2,8 @@
 #define CRIT_SPRING_DAMPER_H
 
 #include "core/variant/dictionary.h"
-#include "core/object/class_db.h"
 #include "core/variant/variant.h"
-#include "core/io/resource.h"
 #include "core/object/ref_counted.h"
-#include "core/config/project_settings.h"
-#include "core/object/method_bind.h"
-
-#include <cmath>
 
 struct CritDampSpring : public RefCounted
 {

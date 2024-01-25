@@ -9,20 +9,14 @@
 #include "core/os/time.h"
 #include "core/string/node_path.h"
 #include "core/templates/hash_map.h"
-#include "core/templates/local_vector.h"
 #include "core/templates/vector.h"
 #include "core/variant/variant.h"
 #include "editor/editor_plugin.h"
 #include "editor/plugins/node_3d_editor_gizmos.h"
 #include "scene/3d/skeleton_3d.h"
-#include "scene/animation/animation_player.h"
 #include "scene/main/node.h"
 #include "scene/resources/animation.h"
-#include "scene/resources/animation_library.h"
-#include "scene/resources/material.h"
 #include "scene/resources/primitive_meshes.h"
-
-#include "crit_spring_damper.h"
 
 #define MAKE_RESOURCE_TYPE_HINT(m_type) vformat("%s/%s:%s", Variant::OBJECT, PROPERTY_HINT_RESOURCE_TYPE, m_type)
 #define GETSET(type, variable, ...)            \

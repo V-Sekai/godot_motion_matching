@@ -1,5 +1,7 @@
 #include "crit_spring_damper.h"
 
+#include "core/config/project_settings.h"
+
 float CritDampSpring::square(float x) {
 	return x * x;
 }

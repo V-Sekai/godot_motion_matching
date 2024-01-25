@@ -492,3 +492,9 @@ void MotionPlayer::_notification(int p_what) {
 		} break;
 	}
 }
+void MotionPlayer::set_distance_type(int value) {
+	distance_type = value;
+	if (kdt != nullptr && 0 <= distance_type && distance_type <= 2)
+		kdt->set_distance(distance_type);
+}
+int MotionPlayer::get_distance_type() { return distance_type; }

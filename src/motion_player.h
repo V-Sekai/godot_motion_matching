@@ -3,29 +3,15 @@
 #define MOTION_MATCHING_HPP
 
 #include "core/string/node_path.h"
-#include "core/string/print_string.h"
 #include "core/variant/variant.h"
 #include "scene/main/node.h"
 
-#include "core/object/class_db.h"
-#include "core/object/method_bind.h"
-#include "core/templates/hash_map.h"
-#include "core/templates/vector.h"
-#include "editor/editor_plugin.h"
-
-#include "scene/gui/box_container.h"
-
-#include "scene/animation/animation_player.h"
 #include "scene/resources/animation.h"
 #include "scene/resources/animation_library.h"
 
 #include "scene/3d/skeleton_3d.h"
 
-#include <algorithm>
 #include <bitset>
-#include <chrono>
-#include <numeric>
-#include <vector>
 
 #include "../thirdparty/kdtree.hpp"
 #include "motion_features.h"

@@ -3,10 +3,8 @@
 
 #include "core/io/resource.h"
 #include "core/object/class_db.h"
-#include "core/string/node_path.h"
 #include "core/string/print_string.h"
 #include "core/templates/vector.h"
-#include "scene/main/node.h"
 
 #include <chrono>
 
