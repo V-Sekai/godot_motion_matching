@@ -48,7 +48,7 @@ namespace aabb
         // Validate the dimensionality of the bounds vectors.
         if (lowerBound.size() != upperBound.size())
         {
-            throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
+            return;
         }
 
         // Validate that the upper bounds exceed the lower bounds.
@@ -57,7 +57,7 @@ namespace aabb
             // Validate the bound.
             if (lowerBound[i] > upperBound[i])
             {
-                throw std::invalid_argument("[ERROR]: AABB lower bound is greater than the upper bound!");
+                return;
             }
         }
 
@@ -198,7 +198,7 @@ namespace aabb
         // Validate the dimensionality.
         if ((dimension < 1))
         {
-            throw std::invalid_argument("[ERROR]: Invalid dimensionality!");
+            return;
         }
 
         // Initialise the periodicity vector.
@@ -237,13 +237,13 @@ namespace aabb
         // Validate the dimensionality.
         if (dimension < 1)
         {
-            throw std::invalid_argument("[ERROR]: Invalid dimensionality!");
+            return;
         }
 
         // Validate the dimensionality of the vectors.
         if ((periodicity.size() != dimension) || (boxSize.size() != dimension))
         {
-            throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
+            return;
         }
 
         // Initialise the tree.
@@ -341,13 +341,13 @@ namespace aabb
         // Make sure the particle doesn't already exist.
         if (particleMap.count(particle) != 0)
         {
-            throw std::invalid_argument("[ERROR]: Particle already exists in tree!");
+            return;
         }
 
         // Validate the dimensionality of the position vector.
         if (position.size() != dimension)
         {
-            throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
+            return;
         }
 
         // Allocate a new node for the particle.
@@ -391,13 +391,13 @@ namespace aabb
         // Make sure the particle doesn't already exist.
         if (particleMap.count(particle) != 0)
         {
-            throw std::invalid_argument("[ERROR]: Particle already exists in tree!");
+            return;
         }
 
         // Validate the dimensionality of the bounds vectors.
         if ((lowerBound.size() != dimension) || (upperBound.size() != dimension))
         {
-            throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
+            return;
         }
 
         // Allocate a new node for the particle.
@@ -412,7 +412,7 @@ namespace aabb
             // Validate the bound.
             if (lowerBound[i] > upperBound[i])
             {
-                throw std::invalid_argument("[ERROR]: AABB lower bound is greater than the upper bound!");
+                return;
             }
 
             nodes[node].aabb.lowerBound[i] = lowerBound[i];
@@ -458,7 +458,7 @@ namespace aabb
         // The particle doesn't exist.
         if (it == particleMap.end())
         {
-            throw std::invalid_argument("[ERROR]: Invalid particle index!");
+            return;
         }
 
         // Extract the node index.
@@ -504,7 +504,7 @@ namespace aabb
         // Validate the dimensionality of the position vector.
         if (position.size() != dimension)
         {
-            throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
+            return false;
         }
 
         // AABB bounds vectors.
@@ -528,7 +528,7 @@ namespace aabb
         // Validate the dimensionality of the bounds vectors.
         if ((lowerBound.size() != dimension) && (upperBound.size() != dimension))
         {
-            throw std::invalid_argument("[ERROR]: Dimensionality mismatch!");
+            return false;
         }
 
         // Map iterator.
@@ -540,7 +540,7 @@ namespace aabb
         // The particle doesn't exist.
         if (it == particleMap.end())
         {
-            throw std::invalid_argument("[ERROR]: Invalid particle index!");
+            return false;
         }
 
         // Extract the node index.
@@ -558,7 +558,7 @@ namespace aabb
             // Validate the bound.
             if (lowerBound[i] > upperBound[i])
             {
-                throw std::invalid_argument("[ERROR]: AABB lower bound is greater than the upper bound!");
+                return false;
             }
 
             size[i] = upperBound[i] - lowerBound[i];
@@ -598,7 +598,7 @@ namespace aabb
         // Make sure that this is a valid particle.
         if (particleMap.count(particle) == 0)
         {
-            throw std::invalid_argument("[ERROR]: Invalid particle index!");
+            return std::vector<unsigned int>();
         }
 
         // Test overlap of particle AABB against all other particles.
