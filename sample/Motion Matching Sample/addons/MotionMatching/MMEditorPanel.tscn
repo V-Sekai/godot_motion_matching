@@ -1,6 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://cgx5x8caibsnl"]
-
-[ext_resource type="Script" path="res://addons/MM/MMEditorPanel.gd" id="1_wva2m"]
+[gd_scene format=3 uid="uid://cgx5x8caibsnl"]
 
 [node name="MMEditorPanel" type="Control"]
 layout_mode = 3
@@ -9,7 +7,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_wva2m")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 1

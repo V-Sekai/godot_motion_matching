@@ -1,3 +1,4 @@
+@uid("uid://dmisgwrk2os7b") # Generated automatically, do not modify.
 @tool
 extends EditorPlugin
 
@@ -8,17 +9,12 @@ const MMEditorGizmoPlugin = preload("res://addons/MotionMatching/MMEditorGizmoPl
 var gizmo_plugin := MMEditorGizmoPlugin.new()
 
 
-
 func _enter_tree() -> void:
 	add_node_3d_gizmo_plugin(gizmo_plugin)
 	bottompanel = preload("res://addons/MotionMatching/MMEditorPanel.tscn").instantiate()
 	bottompanel.gizmo = gizmo_plugin
-	# Initialization of the plugin goes here.
-
 #	_make_visible(false)
-
 	get_editor_interface().get_selection().selection_changed.connect(visibility)
-	pass
 
 
 func _exit_tree() -> void:
@@ -26,11 +22,11 @@ func _exit_tree() -> void:
 	remove_control_from_bottom_panel(bottompanel)
 	if(bottompanel != null):
 		bottompanel.free()
-	# Clean-up of the plugin goes here.
-	pass
+
 
 func _has_main_screen()->bool:
 	return false
+
 
 func visibility() -> void:
 	var nodes :Array= get_editor_interface().get_selection().get_selected_nodes()
@@ -46,5 +42,3 @@ func visibility() -> void:
 		make_bottom_panel_item_visible(bottompanel)
 	else :
 		remove_control_from_bottom_panel(bottompanel)
-
-

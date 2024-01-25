@@ -1,3 +1,4 @@
+@uid("uid://xlbl7336ldfm") # Generated automatically, do not modify.
 @tool
 extends Control
 
@@ -83,13 +84,12 @@ func update_info()->void:
 			choose_anim.get_popup().connect("id_pressed",_on_choose_animation_pressed)
 
 
-
-
 func bake_data_current()->void:
 	if _current == null:
 		return
 	_current.baking_data()
 	update_info()
+
 
 func update_shown_pose_data(pose_index : int)->void:
 
@@ -120,9 +120,6 @@ func update_shown_pose_data(pose_index : int)->void:
 	var skel := _current.get_node(_current.get("skeleton_node_path")) as Skeleton3D
 	var tr := skel.get_bone_global_pose(skel.find_bone("Root"))
 	tr = Transform3D()
-
-
-
 
 	rd.push_table(4)
 	for t in [anim_name,"%*.*f" % [0,3, anim_timestep ], str(anim.length),str(anim_cat)]:
@@ -162,12 +159,8 @@ func update_shown_pose_data(pose_index : int)->void:
 			rd.pop()
 
 		var showed_values :=  pose.slice(offset,offset+r.get_dimension())
-
-
 		r.debug_pose_gizmo(gizmo.instance,showed_values,tr )
-
 		offset += r.get_dimension()
-
 	rd.pop()
 
 
@@ -175,6 +168,8 @@ func update_shown_pose_data(pose_index : int)->void:
 @onready var e := $TabContainer/Test/MarginContainer/HFlowContainer/SpinBox2
 @onready var dmax := $TabContainer/Test/MarginContainer/HFlowContainer/SpinBox3
 @onready var a := $TabContainer/Test/MarginContainer/HFlowContainer/Answer2
+
+
 func _max_der_calculate(x):
 	a.text = str(CritDampSpring.maximum_spring_velocity_to_halflife(s.value,e.value,dmax.value))
 
@@ -198,7 +193,6 @@ func add_category_track_to_anims():
 		anim.track_set_interpolation_type(category_track,Animation.INTERPOLATION_NEAREST)
 
 
-
 func on_look_for_similar_pressed() -> void:
 	var pose_index = $TabContainer/Data/HBoxContainer/MarginContainer2/HBoxContainer/SpinBox.value
 
@@ -214,10 +208,6 @@ func on_look_for_similar_pressed() -> void:
 	for r in result:
 		prints(r)
 
-	pass # Replace with function body.
-
-
-
 
 func _on_choose_animation_pressed(ID) -> void:
 	if _current.animation_library != null:
@@ -232,5 +222,3 @@ func _on_choose_animation_pressed(ID) -> void:
 					update_shown_pose_data(i)
 					break
 				i += 1
-
-	pass # Replace with function body.
