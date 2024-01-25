@@ -82,32 +82,32 @@ void CritDampSpring::_spring_damper_exact(
 	float c = g + (d * q) / (s + eps);
 	float y = d / 2.0;
 
-	if (std::abs(s - (d * d) / 4.0) < eps) { // Critically Damped
+	if (Math::abs(s - (d * d) / 4.0) < eps) { // Critically Damped
 		float j0 = x - c;
 		float j1 = v + j0 * y;
-		float eydt = std::exp(-y * dt);
+		float eydt = Math::exp(-y * dt);
 		x = j0 * eydt + dt * j1 * eydt + c;
 		v = -y * j0 * eydt - y * dt * j1 * eydt + j1 * eydt;
 	} else if (s - (d * d) / 4.0 > 0.0) { // Under Damped
-		float w = std::sqrt(s - (d * d) / 4.0f);
-		float j = std::sqrt(std::pow(v + y * (x - c), 2) / (std::pow(w, 2) + eps) + std::pow(x - c, 2));
-		float p = std::atan((v + (x - c) * y) / (-(x - c) * w + eps));
+		float w = Math::sqrt(s - (d * d) / 4.0f);
+		float j = Math::sqrt(std::pow(v + y * (x - c), 2) / (std::pow(w, 2) + eps) + std::pow(x - c, 2));
+		float p = Math::atan((v + (x - c) * y) / (-(x - c) * w + eps));
 
 		// j = (x - c) > 0.0 ? j : -j;
 		j = (x - c) > 0.0 ? j : -j;
 
 		float eydt = std::exp(-y * dt);
 
-		x = j * eydt * std::cos(w * dt + p) + c;
-		v = -y * j * eydt * std::cos(w * dt + p) - w * j * eydt * std::sin(w * dt + p);
+		x = j * eydt * Math::cos(w * dt + p) + c;
+		v = -y * j * eydt * Math::cos(w * dt + p) - w * j * eydt * std::sin(w * dt + p);
 	} else if (s - (d * d) / 4.0 < 0.0) { // Over Damped
-		float y0 = (d + std::sqrt(std::pow(d, 2) - 4.0f * s)) / 2.0f;
-		float y1 = (d - std::sqrt(std::pow(d, 2) - 4.0f * s)) / 2.0f;
+		float y0 = (d + Math::sqrt(Math::pow(d, 2) - 4.0f * s)) / 2.0f;
+		float y1 = (d - Math::sqrt(Math::pow(d, 2) - 4.0f * s)) / 2.0f;
 		float j1 = (c * y0 - x * y0 - v) / (y1 - y0);
 		float j0 = x - j1 - c;
 
-		float ey0dt = std::exp(-y0 * dt);
-		float ey1dt = std::exp(-y1 * dt);
+		float ey0dt = Math::exp(-y0 * dt);
+		float ey1dt = Math::exp(-y1 * dt);
 
 		x = j0 * ey0dt + j1 * ey1dt + c;
 		v = -y0 * j0 * ey0dt - y1 * j1 * ey1dt;
