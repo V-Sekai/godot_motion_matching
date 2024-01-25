@@ -112,4 +112,4 @@ protected:
 	static void _bind_methods();
 };
 
-#endif
+#endif // CRIT_SPRING_DAMPER_H

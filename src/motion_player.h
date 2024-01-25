@@ -28,8 +28,8 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef MOTION_MATCHING_HPP
-#define MOTION_MATCHING_HPP
+#ifndef MOTION_PLAYER_H
+#define MOTION_PLAYER_H
 
 #include "core/string/node_path.h"
 #include "core/variant/variant.h"
@@ -179,4 +179,4 @@ protected:
 #undef BINDER_PROPERTY
 #undef BINDER_PROPERTY_PARAMS
 
-#endif
+#endif // MOTION_PLAYER_H
