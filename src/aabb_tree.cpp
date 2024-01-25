@@ -58,8 +58,9 @@ void AABBTree::update_particle(int64_t index, PackedFloat32Array lowerbound, Pac
 PackedInt64Array AABBTree::query_index(unsigned int i) {
 	auto result = bvh.query(i);
 	PackedInt64Array r;
-	for (auto f : result)
+	for (auto f : result) {
 		r.push_back(f);
+	}
 	return r;
 }
 
