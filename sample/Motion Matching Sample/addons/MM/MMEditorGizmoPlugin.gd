@@ -1,3 +1,4 @@
+@uid("uid://dg2fi432oufus") # Generated automatically, do not modify.
 @tool
 
 class_name MMEditorGizmoPlugin extends EditorNode3DGizmoPlugin
@@ -12,6 +13,7 @@ class MMGizmo extends EditorNode3DGizmo:
 
 var instance : MMGizmo = null
 
+
 func _init():
 	create_material("white", Color.WHITE)
 	create_material("blue", Color.BLUE)
@@ -21,6 +23,7 @@ func _init():
 
 	prints("MMEditorGizmoPlugin")
 
+
 func _create_gizmo(node):
 	if node.name == "Armature":
 		if instance == null:
@@ -29,8 +32,10 @@ func _create_gizmo(node):
 	else:
 		return null
 
+
 func _get_gizmo_name() -> String:
 	return "MMGizmo"
+
 
 func set_lines(lines:PackedVector3Array):
 	instance.lines = lines
@@ -40,8 +45,4 @@ func set_lines(lines:PackedVector3Array):
 func _has_gizmo(node):
 	prints("Checking",node.name,node is MotionPlayer)
 	return node.name == "Armature"
-
-
-func _redraw(gizmo : EditorNode3DGizmo):
-	pass
 

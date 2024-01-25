@@ -53,7 +53,6 @@ func update_info()->void:
 		]
 		for i in info:
 			infotext.push_cell()
-			#infotext.set_cell_padding(Rect2i(5,0,5,5))
 			infotext.set_cell_border_color(Color.LIGHT_GRAY)
 			infotext.append_text(i[0])
 			infotext.pop()
@@ -73,8 +72,6 @@ func update_info()->void:
 			prints("Dimension",i)
 			for data in _current.densities[i]:
 				prints(data[0],data[1])
-
-
 
 		if _current.animation_library != null:
 			var lib :AnimationLibrary = _current.animation_library
