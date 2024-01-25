@@ -8,6 +8,12 @@ def configure(env):
 
 def get_doc_classes():
     return [
+        "CritDampSpring",
+        "BonePositionVelocityMotionFeature",
+        "RootVelocityMotionFeature",
+        "PredictionMotionFeature",
+        "MotionPlayer",
+        "MotionFeature",
     ]
 
 
