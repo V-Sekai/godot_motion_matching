@@ -41,3 +41,14 @@
 *.os
 
 __pycache__/
+
+# Logs
+*.log
+
+# Architecture specific files
+x86/
+[Aa][Rr][Mm]/
+
+# Debug and Release directories
+[Dd]ebug/
+[Rr]elease/
