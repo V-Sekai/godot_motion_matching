@@ -350,14 +350,14 @@ struct BonePositionVelocityMotionFeature : public MotionFeature {
 		}
 		return result;
 	}
-    float get_weight_bone_pos() const {
-        return weight_bone_pos;
-    }
+	float get_weight_bone_pos() const {
+		return weight_bone_pos;
+	}
 
 protected:
 	static void _bind_methods() {
-        ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "BonePositionVelocityMotionFeature"), "set_weight_bone_pos", "get_weight_bone_pos");
-        ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "BonePositionVelocityMotionFeature"), "set_weight_bone_vel", "get_weight_bone_vel");
+		ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "BonePositionVelocityMotionFeature"), "set_weight_bone_pos", "get_weight_bone_pos");
+		ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "BonePositionVelocityMotionFeature"), "set_weight_bone_vel", "get_weight_bone_vel");
 		ClassDB::bind_method(D_METHOD("set_to_skeleton", "value"), &BonePositionVelocityMotionFeature::set_to_skeleton);
 		ClassDB::bind_method(D_METHOD("get_to_skeleton"), &BonePositionVelocityMotionFeature::get_to_skeleton);
 		ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "Skeleton", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "Skeleton3D"), "set_to_skeleton", "get_to_skeleton");
@@ -581,26 +581,26 @@ protected:
 	static void _bind_methods() {
 		ClassDB::bind_method(D_METHOD("set_weight_history_pos"), &PredictionMotionFeature::set_weight_history_pos);
 		ClassDB::bind_method(D_METHOD("get_weight_history_pos"), &PredictionMotionFeature::get_weight_history_pos);
-        ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "weight_history_pos"), "set_weight_history_pos", "get_weight_history_pos");
+		ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "weight_history_pos"), "set_weight_history_pos", "get_weight_history_pos");
 		ClassDB::bind_method(D_METHOD("set_weight_prediction_pos"), &PredictionMotionFeature::set_weight_prediction_pos);
 		ClassDB::bind_method(D_METHOD("get_weight_prediction_pos"), &PredictionMotionFeature::get_weight_prediction_pos);
-        ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "weight_prediction_pos"), "set_weight_prediction_pos", "get_weight_prediction_pos");
+		ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "weight_prediction_pos"), "set_weight_prediction_pos", "get_weight_prediction_pos");
 		ClassDB::bind_method(D_METHOD("set_weight_prediction_angle"), &PredictionMotionFeature::set_weight_prediction_angle);
 		ClassDB::bind_method(D_METHOD("get_weight_prediction_angle"), &PredictionMotionFeature::get_weight_prediction_angle);
-        ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "weight_prediction_angle"), "set_weight_prediction_angle", "get_weight_prediction_angle");
+		ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "weight_prediction_angle"), "set_weight_prediction_angle", "get_weight_prediction_angle");
 
 		PackedFloat32Array m_default{};
 		m_default.push_back(0.2);
 		m_default.push_back(0.4);
 		ClassDB::bind_method(D_METHOD("set_root_bone_name", "root_bone_name"), &PredictionMotionFeature::set_weight_prediction_angle, DEFVAL("%GeneralSkeleton:Root"));
 		ClassDB::bind_method(D_METHOD("get_root_bone_name"), &PredictionMotionFeature::get_weight_prediction_angle);
-        ADD_PROPERTY(PropertyInfo(Variant::STRING, "root_bone_name"), "set_root_bone_name", "get_root_bone_name");
+		ADD_PROPERTY(PropertyInfo(Variant::STRING, "root_bone_name"), "set_root_bone_name", "get_root_bone_name");
 		ClassDB::bind_method(D_METHOD("set_past_time_dt", "past_time_delta"), &PredictionMotionFeature::set_past_time_dt, DEFVAL(m_default));
 		ClassDB::bind_method(D_METHOD("get_past_time_dt"), &PredictionMotionFeature::get_past_time_dt);
-        ADD_PROPERTY(PropertyInfo(Variant::PACKED_FLOAT32_ARRAY, "past_time_dt"), "set_past_time_dt", "get_past_time_dt");
+		ADD_PROPERTY(PropertyInfo(Variant::PACKED_FLOAT32_ARRAY, "past_time_dt"), "set_past_time_dt", "get_past_time_dt");
 		ClassDB::bind_method(D_METHOD("set_future_time_dt", "future_time_delta"), &PredictionMotionFeature::set_future_time_dt);
 		ClassDB::bind_method(D_METHOD("get_future_time_dt"), &PredictionMotionFeature::get_future_time_dt);
-        ADD_PROPERTY(PropertyInfo(Variant::PACKED_FLOAT32_ARRAY, "future_time_dt"), "set_future_time_dt", "get_future_time_dt");
+		ADD_PROPERTY(PropertyInfo(Variant::PACKED_FLOAT32_ARRAY, "future_time_dt"), "set_future_time_dt", "get_future_time_dt");
 
 		ClassDB::bind_method(D_METHOD("get_dimension"), &PredictionMotionFeature::get_dimension);
 

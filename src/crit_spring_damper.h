@@ -1,15 +1,14 @@
 #ifndef CRIT_SPRING_DAMPER_H
 #define CRIT_SPRING_DAMPER_H
 
+#include "core/object/ref_counted.h"
 #include "core/variant/dictionary.h"
 #include "core/variant/variant.h"
-#include "core/object/ref_counted.h"
 
-struct CritDampSpring : public RefCounted
-{
-    GDCLASS(CritDampSpring,RefCounted)
+struct CritDampSpring : public RefCounted {
+	GDCLASS(CritDampSpring, RefCounted)
 
-    static constexpr float Ln2 = 0.69314718056;
+	static constexpr float Ln2 = 0.69314718056;
 	static float square(float x);
 	static Vector3 damp_adjustment_exact(Vector3 g, float halflife, float dt, float eps = 1e-8);
 	static Quaternion damp_adjustment_exact_quat(Quaternion g, float halflife, float dt, float eps = 1e-8);
@@ -17,7 +16,7 @@ struct CritDampSpring : public RefCounted
 	static float fast_negexp(float x);
 	static Variant damper_exact(Variant variable, Variant goal, float halflife, float dt, float eps = 1e-5f);
 	static float halflife_to_damping(float halflife, float eps = 1e-5f);
-    static float damping_to_halflife(float damping, float eps = 1e-5f);
+	static float damping_to_halflife(float damping, float eps = 1e-5f);
 	static float frequency_to_stiffness(float frequency);
 	static float stiffness_to_frequency(float stiffness);
 	static float critical_halflife(float frequency);
@@ -48,7 +47,7 @@ struct CritDampSpring : public RefCounted
 	static PackedFloat32Array decay_spring_damper_exact(float x, float v, float halflife, float dt);
 
 	//	Reach the x_goal at timed t_goal in the future
-    //	Apprehension parameter controls how far into the future we try to track the linear interpolation
+	//	Apprehension parameter controls how far into the future we try to track the linear interpolation
 	static void _timed_spring_damper_exact(
 			float &x, float &v,
 			const float xi,

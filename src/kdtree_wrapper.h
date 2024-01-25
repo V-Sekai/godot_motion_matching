@@ -50,7 +50,7 @@ struct KDTree : public Resource {
 
 		// if (kd != nullptr)
 		//   delete kd;
-		print_line("Nb poses", (int64_t) nodes.size());
+		print_line("Nb poses", (int64_t)nodes.size());
 		// auto clock_start = std::chrono::system_clock::now();
 		// try{
 		// throw new std::exception("Hello");
