@@ -353,7 +353,7 @@ PackedFloat32Array PredictionMotionFeature::bake_animation_pose(Ref<Animation> a
 	Vector3 curr_pos = animation->position_track_interpolate(root_tracks[0], time);
 	Quaternion curr_rot = animation->rotation_track_interpolate(root_tracks[1], time);
 
-	for (size_t index = 0; index < past_time_dt.size(); ++index) {
+	for (int64_t index = 0; index < past_time_dt.size(); ++index) {
 		const float t = time - abs(past_time_dt[index]);
 		Vector3 pos{};
 		Quaternion rot{};
@@ -368,7 +368,7 @@ PackedFloat32Array PredictionMotionFeature::bake_animation_pose(Ref<Animation> a
 		result.push_back(pos.x);
 		result.push_back(pos.z);
 	}
-	for (size_t index = 0; index < future_time_dt.size(); ++index) {
+	for (int64_t index = 0; index < future_time_dt.size(); ++index) {
 		const float t = time + abs(future_time_dt[index]);
 		Vector3 pos{};
 		Quaternion rot{};
@@ -384,7 +384,7 @@ PackedFloat32Array PredictionMotionFeature::bake_animation_pose(Ref<Animation> a
 		result.push_back(pos.x);
 		result.push_back(pos.z);
 	}
-	for (size_t index = 0; index < future_time_dt.size(); ++index) {
+	for (int64_t index = 0; index < future_time_dt.size(); ++index) {
 		const float t = time + abs(future_time_dt[index]);
 		Vector3 pos{};
 		Quaternion rot{};
