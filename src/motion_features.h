@@ -272,7 +272,7 @@ public:
 
 protected:
 	static void _bind_methods();
-	virtual void debug_pose_gizmo(Ref<EditorNode3DGizmo> gizmo, const PackedFloat32Array data, Transform3D tr = Transform3D{});
+	virtual void debug_pose_gizmo(Ref<RefCounted> gizmo, const PackedFloat32Array data, Transform3D tr = Transform3D{});
 };
 
 #undef MAKE_RESOURCE_TYPE_HINT

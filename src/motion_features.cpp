@@ -30,6 +30,10 @@
 
 #include "motion_features.h"
 
+#ifdef TOOLS_ENABLED
+#include "editor/plugins/node_3d_editor_gizmos.h"
+#endif
+
 void MotionFeature::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_dimension"), &MotionFeature::get_dimension);
 
@@ -459,27 +463,33 @@ void PredictionMotionFeature::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("debug_pose_gizmo", "gizmo", "data", "root_transform"), &PredictionMotionFeature::debug_pose_gizmo);
 }
 
-void PredictionMotionFeature::debug_pose_gizmo(Ref<EditorNode3DGizmo> gizmo, const PackedFloat32Array data, Transform3D tr) {
+void PredictionMotionFeature::debug_pose_gizmo(Ref<RefCounted> p_gizmo, const PackedFloat32Array p_data, Transform3D p_transform) {
+#ifdef TOOLS_ENABLED
 	{
 		constexpr int s = 3;
+		Ref<EditorNode3DGizmo> gizmo = p_gizmo;
+		if (gizmo.is_null()) {
+			return;
+		}
 		auto white = gizmo->get_plugin()->get_material("white", gizmo);
 		auto green = gizmo->get_plugin()->get_material("green", gizmo);
 		auto orange = gizmo->get_plugin()->get_material("orange", gizmo);
 		for (size_t i = 0; i < past_time_dt.size(); ++i) {
 			const size_t offset = i * 2;
-			Vector3 pos = Vector3(data[offset + 0], 0, data[offset + 1]);
-			pos = tr.xform(pos);
+			Vector3 pos = Vector3(p_data[offset + 0], 0, p_data[offset + 1]);
+			pos = p_transform.xform(pos);
 			gizmo->add_lines(PackedVector3Array{ pos, pos + Vector3(0, 1, 0) }, green);
 		}
 		const size_t pos_offset = past_time_dt.size();
 		const size_t traj_offset = past_time_dt.size() * 2 + future_time_dt.size() * 2;
 		for (size_t i = 0; i < future_time_dt.size(); ++i) {
 			const size_t offset = (pos_offset + i) * 2;
-			Vector3 pos = Vector3(data[offset + 0], 0, data[offset + 1]);
-			Vector3 traj = tr.xform(Vector3(0, 0, 1)).rotated(Vector3(0, 1, 0), data[traj_offset + i]);
-			pos = tr.xform(pos);
+			Vector3 pos = Vector3(p_data[offset + 0], 0, p_data[offset + 1]);
+			Vector3 traj = p_transform.xform(Vector3(0, 0, 1)).rotated(Vector3(0, 1, 0), p_data[traj_offset + i]);
+			pos = p_transform.xform(pos);
 			// traj = tr.xform(traj);
 			gizmo->add_lines(PackedVector3Array{ pos, pos + traj }, orange);
 		}
 	}
+#endif
 }
