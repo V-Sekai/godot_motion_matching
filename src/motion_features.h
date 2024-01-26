@@ -35,6 +35,7 @@
 #include "core/math/math_defs.h"
 #include "core/object/class_db.h"
 #include "core/object/object.h"
+#include "core/object/ref_counted.h"
 #include "core/os/time.h"
 #include "core/string/node_path.h"
 #include "core/templates/hash_map.h"
@@ -226,7 +227,7 @@ struct BonePositionVelocityMotionFeature : public MotionFeature {
 
 protected:
 	static void _bind_methods();
-	virtual void debug_pose_gizmo(Ref<EditorNode3DGizmo> gizmo, const PackedFloat32Array data, Transform3D tr = Transform3D{});
+	virtual void debug_pose_gizmo(Ref<RefCounted> gizmo, const PackedFloat32Array data, Transform3D tr = Transform3D{});
 };
 
 struct PredictionMotionFeature : public MotionFeature {

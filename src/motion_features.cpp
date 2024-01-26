@@ -259,9 +259,11 @@ void BonePositionVelocityMotionFeature::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("debug_pose_gizmo", "gizmo", "data", "root_transform"), &BonePositionVelocityMotionFeature::debug_pose_gizmo);
 }
 
-void BonePositionVelocityMotionFeature::debug_pose_gizmo(Ref<RefCounted> gizmo, const PackedFloat32Array data, Transform3D tr) {
+void BonePositionVelocityMotionFeature::debug_pose_gizmo(Ref<RefCounted> p_gizmo, const PackedFloat32Array data, Transform3D tr) {
 	// if (data.size() == get_dimension())
 	{
+#ifdef TOOLS_ENABLED
+		Ref<EditorNode3DGizmo> gizmo = p_gizmo;
 		constexpr int s = 3;
 		for (size_t index = 0; index < bone_names.size(); ++index) {
 			//i*size*2+size+2
@@ -278,6 +280,7 @@ void BonePositionVelocityMotionFeature::debug_pose_gizmo(Ref<RefCounted> gizmo, 
 			Transform3D tr = Transform3D(Basis(), pos);
 			gizmo->add_mesh(box, white, tr);
 		}
+#endif
 	}
 }
 
