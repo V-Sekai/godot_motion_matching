@@ -40,8 +40,12 @@
 #include "core/templates/hash_map.h"
 #include "core/templates/vector.h"
 #include "core/variant/variant.h"
+
+#ifdef TOOLS_ENABLED
 #include "editor/editor_plugin.h"
 #include "editor/plugins/node_3d_editor_gizmos.h"
+#endif
+
 #include "scene/3d/skeleton_3d.h"
 #include "scene/main/node.h"
 #include "scene/resources/animation.h"
@@ -181,12 +185,14 @@ protected:
 	}
 
 	virtual void debug_pose_gizmo(Ref<EditorNode3DGizmo> gizmo, const PackedFloat32Array data, Transform3D tr = Transform3D{}) override {
+#ifdef TOOLS_ENABLED
 		if (data.size() == get_dimension()) {
 			Vector3 vel = tr.xform(Vector3(data[0], data[1], data[2]));
 			auto mat = gizmo->get_plugin()->get_material("white", gizmo);
 			PackedVector3Array lines{ tr.origin, tr.origin + vel };
 			gizmo->add_lines(lines, mat);
 		}
+#endif
 	}
 };
 
