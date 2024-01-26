@@ -88,7 +88,7 @@ public:
 
 	virtual float narrowphase_evaluate_cost(PackedFloat32Array to_convert) { return 0.0; }
 
-	virtual void debug_pose_gizmo(Ref<EditorNode3DGizmo> gizmo, const PackedFloat32Array data, Transform3D tr = Transform3D{}) { return; }
+	virtual void debug_pose_gizmo(Ref<RefCounted> gizmo, const PackedFloat32Array data, Transform3D tr = Transform3D{}) { return; }
 
 protected:
 	static void _bind_methods();
@@ -219,7 +219,7 @@ struct BonePositionVelocityMotionFeature : public MotionFeature {
 	PackedFloat32Array last_known_result{};
 	float last_time_queried = 0.0f;
 	virtual PackedFloat32Array broadphase_query_pose(Dictionary blackboard, float delta) override;
-	virtual float narrowphase_evaluate_cost(PackedFloat32Array to_convert);
+	virtual float narrowphase_evaluate_cost(PackedFloat32Array to_convert) override;
 	GETSET(float, weight_bone_pos, 1.0f);
 	GETSET(float, weight_bone_vel, 1.0f);
 	virtual PackedFloat32Array get_weights() override;
