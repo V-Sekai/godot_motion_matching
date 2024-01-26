@@ -120,16 +120,16 @@ void CritDampSpring::_spring_damper_exact(
 		v = -y * j0 * eydt - y * dt * j1 * eydt + j1 * eydt;
 	} else if (s - (d * d) / 4.0 > 0.0) { // Under Damped
 		float w = Math::sqrt(s - (d * d) / 4.0f);
-		float j = Math::sqrt(std::pow(v + y * (x - c), 2) / (std::pow(w, 2) + eps) + std::pow(x - c, 2));
+		float j = Math::sqrt(Math::pow(v + y * (x - c), 2) / (Math::pow(w, 2) + eps) + Math::pow(x - c, 2));
 		float p = Math::atan((v + (x - c) * y) / (-(x - c) * w + eps));
 
 		// j = (x - c) > 0.0 ? j : -j;
 		j = (x - c) > 0.0 ? j : -j;
 
-		float eydt = std::exp(-y * dt);
+		float eydt = Math::exp(-y * dt);
 
 		x = j * eydt * Math::cos(w * dt + p) + c;
-		v = -y * j * eydt * Math::cos(w * dt + p) - w * j * eydt * std::sin(w * dt + p);
+		v = -y * j * eydt * Math::cos(w * dt + p) - w * j * eydt * Math::sin(w * dt + p);
 	} else if (s - (d * d) / 4.0 < 0.0) { // Over Damped
 		float y0 = (d + Math::sqrt(Math::pow(d, 2) - 4.0f * s)) / 2.0f;
 		float y1 = (d - Math::sqrt(Math::pow(d, 2) - 4.0f * s)) / 2.0f;
