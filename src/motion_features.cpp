@@ -29,6 +29,7 @@
 /**************************************************************************/
 
 #include "motion_features.h"
+#include "core/object/ref_counted.h"
 
 #ifdef TOOLS_ENABLED
 #include "editor/plugins/node_3d_editor_gizmos.h"
@@ -258,7 +259,7 @@ void BonePositionVelocityMotionFeature::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("debug_pose_gizmo", "gizmo", "data", "root_transform"), &BonePositionVelocityMotionFeature::debug_pose_gizmo);
 }
 
-void BonePositionVelocityMotionFeature::debug_pose_gizmo(Ref<EditorNode3DGizmo> gizmo, const PackedFloat32Array data, Transform3D tr) {
+void BonePositionVelocityMotionFeature::debug_pose_gizmo(Ref<RefCounted> gizmo, const PackedFloat32Array data, Transform3D tr) {
 	// if (data.size() == get_dimension())
 	{
 		constexpr int s = 3;
