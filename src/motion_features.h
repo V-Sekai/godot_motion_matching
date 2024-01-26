@@ -185,8 +185,9 @@ protected:
 		ClassDB::bind_method(D_METHOD("debug_pose_gizmo", "gizmo", "data", "root_transform"), &RootVelocityMotionFeature::debug_pose_gizmo);
 	}
 
-	virtual void debug_pose_gizmo(Ref<EditorNode3DGizmo> gizmo, const PackedFloat32Array data, Transform3D tr = Transform3D{}) override {
+	virtual void debug_pose_gizmo(Ref<RefCounted> p_gizmo, const PackedFloat32Array data, Transform3D tr = Transform3D{}) override {
 #ifdef TOOLS_ENABLED
+		Ref<EditorNode3DGizmo> gizmo = p_gizmo;
 		if (data.size() == get_dimension()) {
 			Vector3 vel = tr.xform(Vector3(data[0], data[1], data[2]));
 			auto mat = gizmo->get_plugin()->get_material("white", gizmo);
