@@ -30,6 +30,8 @@
 
 #include "motion_features.h"
 #include "core/object/ref_counted.h"
+#include "scene/3d/skeleton_3d.h"
+#include <cstdint>
 
 #ifdef TOOLS_ENABLED
 #include "editor/plugins/node_3d_editor_gizmos.h"
@@ -83,7 +85,7 @@ void BonePositionVelocityMotionFeature::setup_nodes(Variant character) {
 
 	bones_id.clear();
 	if (skeleton != nullptr) {
-		for (size_t i = 0; i < bone_names.size(); ++i) {
+		for (int64_t i = 0; i < bone_names.size(); ++i) {
 			const size_t id = skeleton->find_bone(bone_names[i]);
 			if (id >= 0) {
 				bones_id.push_back(id);
@@ -104,14 +106,14 @@ void BonePositionVelocityMotionFeature::setup_for_animation(Ref<Animation> anima
 	skeleton->reset_bone_poses();
 	bone_tracks.clear();
 	bones_id.clear();
-	for (size_t i = 0; i < bone_names.size(); ++i) {
-		const size_t id = skeleton->find_bone(bone_names[i]);
+	for (int64_t i = 0; i < bone_names.size(); ++i) {
+		const BoneId id = skeleton->find_bone(bone_names[i]);
 		if (id >= 0) {
 			bones_id.push_back(id);
 		}
 	}
-	for (auto bone_id = 0; bone_id < skeleton->get_bone_count(); ++bone_id) {
-		const auto bone_name = "%GeneralSkeleton:" + skeleton->get_bone_name(bone_id);
+	for (int64_t bone_id = 0; bone_id < skeleton->get_bone_count(); ++bone_id) {
+		const String bone_name = "%GeneralSkeleton:" + skeleton->get_bone_name(bone_id);
 		PackedInt32Array tracks{};
 		tracks.push_back(animation->find_track(NodePath(bone_name), Animation::TrackType::TYPE_POSITION_3D));
 		tracks.push_back(animation->find_track(NodePath(bone_name), Animation::TrackType::TYPE_ROTATION_3D));
@@ -125,12 +127,12 @@ void BonePositionVelocityMotionFeature::set_skeleton_to_animation_timestamp(Ref<
 	if (anim == nullptr || skeleton == nullptr) {
 		return;
 	}
-	for (size_t bone_id = 0; bone_id < skeleton->get_bone_count(); ++bone_id) {
+	for (int64_t bone_id = 0; bone_id < skeleton->get_bone_count(); ++bone_id) {
 		if (!bone_tracks.has(bone_id)) {
 			continue;
 		}
-		const auto pos = bone_tracks[bone_id][0];
-		const auto quat = bone_tracks[bone_id][1];
+		const int64_t pos = bone_tracks[bone_id][0];
+		const int64_t quat = bone_tracks[bone_id][1];
 		// const auto scale = bone_tracks[bone_id][2];
 		if (pos >= 0) {
 			const Vector3 position = anim->position_track_interpolate(pos, time);
@@ -152,19 +154,19 @@ PackedFloat32Array BonePositionVelocityMotionFeature::bake_animation_pose(Ref<An
 	PackedVector3Array prev_pos{}, curr_pos{};
 	PackedFloat32Array result{};
 	set_skeleton_to_animation_timestamp(animation, time - 0.1);
-	for (size_t index = 0; index < bones_id.size(); ++index) {
+	for (int64_t index = 0; index < bones_id.size(); ++index) {
 		const auto bone_id = bones_id[index];
 		prev_pos.push_back(skeleton->get_bone_global_pose(bone_id).get_origin() * skeleton->get_motion_scale());
 	}
 	set_skeleton_to_animation_timestamp(animation, time);
-	for (size_t index = 0; index < bones_id.size(); ++index) {
+	for (int64_t index = 0; index < bones_id.size(); ++index) {
 		const auto bone_id = bones_id[index];
 		curr_pos.push_back(skeleton->get_bone_global_pose(bone_id).get_origin() * skeleton->get_motion_scale());
 	}
-	const size_t root_id = 0;
+	const int64_t root_id = 0;
 	const Transform3D root = skeleton->get_bone_global_pose(root_id) * skeleton->get_motion_scale();
 
-	for (size_t index = 0; index < bones_id.size(); ++index) {
+	for (int64_t index = 0; index < bones_id.size(); ++index) {
 		const auto pos = root.basis.xform_inv(curr_pos[index] - root.get_origin());
 		result.push_back(pos.x);
 		result.push_back(pos.y);
@@ -185,7 +187,7 @@ PackedFloat32Array BonePositionVelocityMotionFeature::broadphase_query_pose(Dict
 
 	float curr_time = Time::get_singleton()->get_ticks_msec();
 
-	for (size_t index = 0; index < bones_id.size(); ++index) {
+	for (int64_t index = 0; index < bones_id.size(); ++index) {
 		Vector3 pos = skeleton->get_bone_global_pose(bones_id[index]).origin;
 		Vector3 vel = (pos - last_known_positions[index]) / delta;
 		current_positions.write[index] = pos;
@@ -197,7 +199,7 @@ PackedFloat32Array BonePositionVelocityMotionFeature::broadphase_query_pose(Dict
 	last_known_velocities = current_velocities.duplicate();
 
 	const size_t size = 3;
-	for (size_t i = 0; i < bones_id.size(); ++i) {
+	for (int64_t i = 0; i < bones_id.size(); ++i) {
 		Vector3 pos = current_positions[i], vel = current_velocities[i];
 
 		last_known_result.write[i * size * 2] = pos.x;
@@ -265,7 +267,7 @@ void BonePositionVelocityMotionFeature::debug_pose_gizmo(Ref<RefCounted> p_gizmo
 #ifdef TOOLS_ENABLED
 		Ref<EditorNode3DGizmo> gizmo = p_gizmo;
 		constexpr int s = 3;
-		for (size_t index = 0; index < bone_names.size(); ++index) {
+		for (int64_t index = 0; index < bone_names.size(); ++index) {
 			//i*size*2+size+2
 			Vector3 pos = Vector3(data[index * s * 2 + 0], data[index * s * 2 + 1], data[index * s * 2 + 2]);
 			Vector3 vel = Vector3(data[index * s * 2 + s + 0], data[index * s * 2 + s + 1], data[index * s * 2 + s + 2]);
@@ -413,17 +415,16 @@ PackedFloat32Array PredictionMotionFeature::broadphase_query_pose(Dictionary bla
 	PackedVector3Array history = PackedVector3Array(blackboard["history"]);
 	PackedVector3Array prediction = PackedVector3Array(blackboard["prediction"]);
 	PackedFloat32Array direction = PackedFloat32Array(blackboard["pred_dir"]);
-	bool valid = false;
 	{
-		for (auto elem : history) {
+		for (Vector3 elem : history) {
 			result.append(elem.x);
 			result.append(elem.z);
 		}
-		for (auto elem : prediction) {
+		for (Vector3 elem : prediction) {
 			result.append(elem.x);
 			result.append(elem.z);
 		}
-		for (auto elem : direction) {
+		for (float elem : direction) {
 			result.append(elem);
 		}
 	}
@@ -470,7 +471,6 @@ void PredictionMotionFeature::_bind_methods() {
 void PredictionMotionFeature::debug_pose_gizmo(Ref<RefCounted> p_gizmo, const PackedFloat32Array p_data, Transform3D p_transform) {
 #ifdef TOOLS_ENABLED
 	{
-		constexpr int s = 3;
 		Ref<EditorNode3DGizmo> gizmo = p_gizmo;
 		if (gizmo.is_null()) {
 			return;
@@ -478,16 +478,16 @@ void PredictionMotionFeature::debug_pose_gizmo(Ref<RefCounted> p_gizmo, const Pa
 		auto white = gizmo->get_plugin()->get_material("white", gizmo);
 		auto green = gizmo->get_plugin()->get_material("green", gizmo);
 		auto orange = gizmo->get_plugin()->get_material("orange", gizmo);
-		for (size_t i = 0; i < past_time_dt.size(); ++i) {
-			const size_t offset = i * 2;
+		for (int64_t i = 0; i < past_time_dt.size(); ++i) {
+			const int64_t offset = i * 2;
 			Vector3 pos = Vector3(p_data[offset + 0], 0, p_data[offset + 1]);
 			pos = p_transform.xform(pos);
 			gizmo->add_lines(PackedVector3Array{ pos, pos + Vector3(0, 1, 0) }, green);
 		}
-		const size_t pos_offset = past_time_dt.size();
-		const size_t traj_offset = past_time_dt.size() * 2 + future_time_dt.size() * 2;
-		for (size_t i = 0; i < future_time_dt.size(); ++i) {
-			const size_t offset = (pos_offset + i) * 2;
+		const int64_t pos_offset = past_time_dt.size();
+		const int64_t traj_offset = past_time_dt.size() * 2 + future_time_dt.size() * 2;
+		for (int64_t i = 0; i < future_time_dt.size(); ++i) {
+			const int64_t offset = (pos_offset + i) * 2;
 			Vector3 pos = Vector3(p_data[offset + 0], 0, p_data[offset + 1]);
 			Vector3 traj = p_transform.xform(Vector3(0, 0, 1)).rotated(Vector3(0, 1, 0), p_data[traj_offset + i]);
 			pos = p_transform.xform(pos);

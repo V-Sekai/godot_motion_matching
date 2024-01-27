@@ -49,7 +49,6 @@ namespace motionmatchingboost { namespace accumulators
             }
 
         private:
-            add_ref_visitor &operator =(add_ref_visitor const &);
             Args const &args_;
         };
 

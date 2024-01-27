@@ -29,6 +29,7 @@
 /**************************************************************************/
 
 #include "motion_player.h"
+#include <cstdint>
 
 void MotionPlayer::set_skeleton_to_pose(Ref<Animation> animation, double time) {
 	auto the_char = cast_to<CharacterBody3D>(get_node(main_node));
@@ -142,8 +143,8 @@ void MotionPlayer::baking_data() {
 
 		print_line("Animations setup for %s duration %s", anim_name, length);
 
-		auto counter = 0;
-		for (auto time = 0.1f; time < length; time += 0.1f) {
+		int64_t counter = 0;
+		for (double time = 0.1f; time < length; time += 0.1f) {
 			int64_t tmp_category_value = (int32_t)animation->value_track_interpolate(category_tracks[0], time);
 			// for(const auto& category:category_tracks)
 			// {
@@ -154,7 +155,7 @@ void MotionPlayer::baking_data() {
 			}
 
 			PackedFloat32Array pose_data{};
-			for (size_t features_index = 0; features_index < motion_features.size(); ++features_index) {
+			for (int64_t features_index = 0; features_index < motion_features.size(); ++features_index) {
 				MotionFeature *f = Object::cast_to<MotionFeature>(motion_features[features_index]);
 				PackedFloat32Array feature_data = f->bake_animation_pose(animation, time);
 				if (feature_data.size() == f->get_dimension()) {
@@ -162,7 +163,7 @@ void MotionPlayer::baking_data() {
 				}
 			}
 
-			for (int i = 0; i < nb_dimensions; ++i) {
+			for (int64_t i = 0; i < nb_dimensions; ++i) {
 				data_stats[i](pose_data[i]);
 			}
 			data.append_array(pose_data);
@@ -199,7 +200,7 @@ void MotionPlayer::baking_data() {
 	}
 
 	// // Normalization
-	for (size_t pose = 0; pose < data.size() / nb_dimensions; ++pose) {
+	for (int64_t pose = 0; pose < data.size() / nb_dimensions; ++pose) {
 		for (int offset = 0; offset < nb_dimensions; ++offset) {
 			data.write[pose * nb_dimensions + offset] = (data[pose * nb_dimensions + offset] - means[offset]) / variances[offset];
 		}
@@ -210,7 +211,7 @@ void MotionPlayer::baking_data() {
 	print_line(vformat("NbDim %d NbPoses: %f Size: %d", nb_dimensions, data.size() / nb_dimensions, data.size()));
 
 	Kdtree::KdNodeVector nodes{};
-	for (size_t i = 0; i < data.size() / nb_dimensions; ++i) {
+	for (int64_t i = 0; i < data.size() / nb_dimensions; ++i) {
 		auto begin = data.ptr(), end = data.ptr(); // We use the ptr as iterator.
 		begin = std::next(begin, nb_dimensions * i);
 		end = std::next(begin, nb_dimensions);
@@ -261,14 +262,14 @@ void MotionPlayer::recalculate_weights() {
 
 TypedArray<Dictionary> MotionPlayer::query_pose(int64_t included_category, int64_t exclude) {
 	PackedFloat32Array query{};
-	for (size_t features_index = 0; features_index < motion_features.size(); ++features_index) {
+	for (int64_t features_index = 0; features_index < motion_features.size(); ++features_index) {
 		MotionFeature *f = Object::cast_to<MotionFeature>(motion_features[features_index]);
 		auto f_query = f->broadphase_query_pose(blackboard, 0.016);
 		if (f_query.size() == f->get_dimension())
 			query.append_array(f_query);
 	}
 	// Normalization
-	for (size_t i = 0; i < means.size(); ++i) {
+	for (int64_t i = 0; i < means.size(); ++i) {
 		query.write[i] = (query[i] - means[i]) / variances[i];
 	}
 	if (kdt == nullptr) {
@@ -277,7 +278,6 @@ TypedArray<Dictionary> MotionPlayer::query_pose(int64_t included_category, int64
 		Kdtree::KdNodeVector re{};
 
 		auto query_data = Kdtree::CoordPoint(query.ptr(), std::next(query.ptr(), kdt->dimension));
-		auto clock_start = std::chrono::system_clock::now();
 		if (included_category == std::numeric_limits<int64_t>::max())
 			kdt->k_nearest_neighbors(query_data, 1, &re);
 		else {
@@ -285,14 +285,10 @@ TypedArray<Dictionary> MotionPlayer::query_pose(int64_t included_category, int64
 			kdt->k_nearest_neighbors(query_data, 1, &re, &pred);
 		}
 
-		auto clock_end = std::chrono::system_clock::now();
-
-		float duration = float(std::chrono::duration_cast<std::chrono::microseconds>(clock_end - clock_start).count());
-
 		TypedArray<Dictionary> results = {};
 
 		String debug = "[";
-		for (auto i = 0; i < re.size(); ++i) {
+		for (uint64_t i = 0; i < re.size(); ++i) {
 			Dictionary subresult{};
 			List<StringName> names;
 			animation_library->get_animation_list(&names);
@@ -490,7 +486,7 @@ void MotionPlayer::_notification(int p_what) {
 			print_line(vformat("Total Dimension %d", nb_dimensions));
 			print_line("Constructing kdtree");
 			Kdtree::KdNodeVector nodes{};
-			for (size_t i = 0; i < MotionData.size() / nb_dimensions; ++i) {
+			for (int64_t i = 0; i < MotionData.size() / nb_dimensions; ++i) {
 				auto begin = MotionData.ptr(), end = MotionData.ptr(); // We use the ptr as iterator.
 				begin = std::next(begin, nb_dimensions * i);
 				end = std::next(begin, nb_dimensions);
