@@ -154,7 +154,7 @@ public:
 		return result;
 	}
 
-	virtual float narrowphase_evaluate_cost(PackedFloat32Array to_convert) {
+	virtual float narrowphase_evaluate_cost(PackedFloat32Array to_convert) override {
 		Vector3 data_vel = { to_convert[0], to_convert[1], to_convert[2] };
 		return (body->get_velocity() - data_vel).length_squared();
 	}
