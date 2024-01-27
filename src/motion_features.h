@@ -131,7 +131,7 @@ public:
 		// u::prints("Root Tracks for",root_track_pos,root_track_quat);
 	}
 
-	virtual PackedFloat32Array bake_animation_pose(Ref<Animation> animation, float time) {
+	virtual PackedFloat32Array bake_animation_pose(Ref<Animation> animation, float time) override {
 		auto pos = animation->position_track_interpolate(root_track_pos, time);
 		auto prev_pos = animation->position_track_interpolate(root_track_pos, time - 0.1);
 		Quaternion rotation = animation->rotation_track_interpolate(root_track_quat, time).normalized();
@@ -214,7 +214,7 @@ struct BonePositionVelocityMotionFeature : public MotionFeature {
 	virtual void setup_nodes(Variant character) override;
 	virtual void setup_for_animation(Ref<Animation> animation) override;
 	void set_skeleton_to_animation_timestamp(Ref<Animation> anim, float time);
-	virtual PackedFloat32Array bake_animation_pose(Ref<Animation> animation, float time);
+	virtual PackedFloat32Array bake_animation_pose(Ref<Animation> animation, float time) override;
 	PackedVector3Array last_known_positions{};
 	PackedVector3Array last_known_velocities{};
 	PackedFloat32Array last_known_result{};
