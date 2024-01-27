@@ -228,7 +228,7 @@ struct BonePositionVelocityMotionFeature : public MotionFeature {
 
 protected:
 	static void _bind_methods();
-	virtual void debug_pose_gizmo(Ref<RefCounted> gizmo, const PackedFloat32Array data, Transform3D tr = Transform3D{});
+	virtual void debug_pose_gizmo(Ref<RefCounted> gizmo, const PackedFloat32Array data, Transform3D tr = Transform3D{}) override;
 };
 
 struct PredictionMotionFeature : public MotionFeature {
@@ -270,11 +270,11 @@ public:
 	virtual void setup_for_animation(Ref<Animation> animation) override;
 	virtual PackedFloat32Array bake_animation_pose(Ref<Animation> animation, float time) override;
 	virtual PackedFloat32Array broadphase_query_pose(Dictionary blackboard, float delta) override;
-	virtual float narrowphase_evaluate_cost(PackedFloat32Array to_convert) { return 0.0; }
+	virtual float narrowphase_evaluate_cost(PackedFloat32Array to_convert) override { return 0.0; }
 
 protected:
 	static void _bind_methods();
-	virtual void debug_pose_gizmo(Ref<RefCounted> gizmo, const PackedFloat32Array data, Transform3D tr = Transform3D{});
+	virtual void debug_pose_gizmo(Ref<RefCounted> gizmo, const PackedFloat32Array data, Transform3D tr = Transform3D{}) override;
 };
 
 #undef MAKE_RESOURCE_TYPE_HINT
