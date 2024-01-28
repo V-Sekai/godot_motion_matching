@@ -23,7 +23,7 @@
 		</method>
 		<method name="debug_pose_gizmo">
 			<return type="void" />
-			<param index="0" name="gizmo" type="EditorNode3DGizmo" />
+			<param index="0" name="gizmo" type="RefCounted" />
 			<param index="1" name="data" type="PackedFloat32Array" />
 			<param index="2" name="root_transform" type="Transform3D" />
 			<description>

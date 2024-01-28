@@ -247,10 +247,6 @@ void BonePositionVelocityMotionFeature::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_bone_names", "value"), &BonePositionVelocityMotionFeature::set_bone_names);
 	ClassDB::bind_method(D_METHOD("get_bone_names"), &BonePositionVelocityMotionFeature::get_bone_names);
 	ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "Bones"), "set_bone_names", "get_bone_names");
-
-	ClassDB::bind_method(D_METHOD("broadphase_query_pose", "blackboard", "delta"), &BonePositionVelocityMotionFeature::broadphase_query_pose);
-	// ClassDB::bind_method( D_METHOD("narrowphase_evaluate_cost","data_to_evaluate"), &RootVelocityMotionFeature::narrowphase_evaluate_cost);
-	ClassDB::bind_method(D_METHOD("debug_pose_gizmo", "gizmo", "data", "root_transform"), &BonePositionVelocityMotionFeature::debug_pose_gizmo);
 }
 
 void BonePositionVelocityMotionFeature::debug_pose_gizmo(Ref<RefCounted> p_gizmo, const PackedFloat32Array p_data, Transform3D p_tr) {
@@ -446,18 +442,6 @@ void PredictionMotionFeature::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_future_time_dt", "future_time_delta"), &PredictionMotionFeature::set_future_time_dt);
 	ClassDB::bind_method(D_METHOD("get_future_time_dt"), &PredictionMotionFeature::get_future_time_dt);
 	ADD_PROPERTY(PropertyInfo(Variant::PACKED_FLOAT32_ARRAY, "future_time_dt"), "set_future_time_dt", "get_future_time_dt");
-
-	ClassDB::bind_method(D_METHOD("get_dimension"), &PredictionMotionFeature::get_dimension);
-
-	ClassDB::bind_method(D_METHOD("setup_nodes", "character"), &PredictionMotionFeature::setup_nodes);
-
-	ClassDB::bind_method(D_METHOD("setup_for_animation", "animation"), &PredictionMotionFeature::setup_for_animation);
-	ClassDB::bind_method(D_METHOD("bake_animation_pose", "animation", "time"), &PredictionMotionFeature::bake_animation_pose);
-
-	ClassDB::bind_method(D_METHOD("broadphase_query_pose", "blackboard", "delta"), &PredictionMotionFeature::broadphase_query_pose);
-	ClassDB::bind_method(D_METHOD("narrowphase_evaluate_cost", "data_to_evaluate"), &PredictionMotionFeature::narrowphase_evaluate_cost);
-
-	ClassDB::bind_method(D_METHOD("debug_pose_gizmo", "gizmo", "data", "root_transform"), &PredictionMotionFeature::debug_pose_gizmo);
 }
 
 void PredictionMotionFeature::debug_pose_gizmo(Ref<RefCounted> p_gizmo, const PackedFloat32Array p_data, Transform3D p_transform) {
