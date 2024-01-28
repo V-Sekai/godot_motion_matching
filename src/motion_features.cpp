@@ -179,7 +179,7 @@ PackedFloat32Array BonePositionVelocityMotionFeature::bake_animation_pose(Ref<An
 	return result;
 }
 
-PackedFloat32Array BonePositionVelocityMotionFeature::broadphase_query_pose(Dictionary blackboard, float delta) {
+PackedFloat32Array BonePositionVelocityMotionFeature::broadphase_query_pose(Dictionary blackboard, float p_delta) {
 	PackedVector3Array current_positions{}, current_velocities{};
 	last_known_result.resize(bones_id.size() * 2 * 3);
 	current_positions.resize(bones_id.size());

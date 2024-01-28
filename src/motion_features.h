@@ -73,7 +73,7 @@ public:
 
 	MotionFeature();
 
-	virtual void physics_update(double delta) {}
+	virtual void physics_update(double p_delta) {}
 
 	virtual int get_dimension() { return 0; }
 
@@ -84,7 +84,7 @@ public:
 	virtual void setup_for_animation(Ref<Animation> animation) {}
 	virtual PackedFloat32Array bake_animation_pose(Ref<Animation> animation, float time) { return {}; }
 
-	virtual PackedFloat32Array broadphase_query_pose(Dictionary blackboard, float delta) { return {}; }
+	virtual PackedFloat32Array broadphase_query_pose(Dictionary p_blackboard, float p_delta) { return {}; }
 
 	virtual float narrowphase_evaluate_cost(PackedFloat32Array to_convert) { return 0.0; }
 
