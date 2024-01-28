@@ -261,7 +261,7 @@ void BonePositionVelocityMotionFeature::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("debug_pose_gizmo", "gizmo", "data", "root_transform"), &BonePositionVelocityMotionFeature::debug_pose_gizmo);
 }
 
-void BonePositionVelocityMotionFeature::debug_pose_gizmo(Ref<RefCounted> p_gizmo, const PackedFloat32Array data, Transform3D tr) {
+void BonePositionVelocityMotionFeature::debug_pose_gizmo(Ref<RefCounted> p_gizmo, const PackedFloat32Array p_data, Transform3D p_tr) {
 	// if (data.size() == get_dimension())
 	{
 #ifdef TOOLS_ENABLED
@@ -269,10 +269,10 @@ void BonePositionVelocityMotionFeature::debug_pose_gizmo(Ref<RefCounted> p_gizmo
 		constexpr int s = 3;
 		for (int64_t index = 0; index < bone_names.size(); ++index) {
 			//i*size*2+size+2
-			Vector3 pos = Vector3(data[index * s * 2 + 0], data[index * s * 2 + 1], data[index * s * 2 + 2]);
-			Vector3 vel = Vector3(data[index * s * 2 + s + 0], data[index * s * 2 + s + 1], data[index * s * 2 + s + 2]);
-			pos = tr.xform(pos);
-			vel = tr.xform(vel);
+			Vector3 pos = Vector3(p_data[index * s * 2 + 0], p_data[index * s * 2 + 1], p_data[index * s * 2 + 2]);
+			Vector3 vel = Vector3(p_data[index * s * 2 + s + 0], p_data[index * s * 2 + s + 1], p_data[index * s * 2 + s + 2]);
+			pos = p_tr.xform(pos);
+			vel = p_tr.xform(vel);
 			auto white = gizmo->get_plugin()->get_material("white", gizmo);
 			auto blue = gizmo->get_plugin()->get_material("blue", gizmo);
 			gizmo->add_lines(PackedVector3Array{ pos, pos + vel }, blue);
