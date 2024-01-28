@@ -145,7 +145,7 @@ public:
 		return result;
 	}
 
-	virtual PackedFloat32Array broadphase_query_pose(Dictionary blackboard, float delta) override {
+	virtual PackedFloat32Array broadphase_query_pose(Dictionary p_blackboard, float p_delta) override {
 		auto vel = body->get_quaternion().xform_inv(body->get_velocity());
 		PackedFloat32Array result{};
 		result.push_back(vel.x);

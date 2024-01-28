@@ -401,20 +401,20 @@ PackedFloat32Array PredictionMotionFeature::bake_animation_pose(Ref<Animation> a
 	return result;
 }
 
-PackedFloat32Array PredictionMotionFeature::broadphase_query_pose(Dictionary blackboard, float delta) {
+PackedFloat32Array PredictionMotionFeature::broadphase_query_pose(Dictionary p_blackboard, float p_delta) {
 	PackedFloat32Array result{};
 	Array blackboard_array;
 	blackboard_array.resize(3);
 	blackboard_array[0] = "history";
 	blackboard_array[1] = "prediction";
 	blackboard_array[2] = "pred_dir";
-	if (!blackboard.has_all(blackboard_array)) {
+	if (!p_blackboard.has_all(blackboard_array)) {
 		return result;
 	}
 
-	PackedVector3Array history = PackedVector3Array(blackboard["history"]);
-	PackedVector3Array prediction = PackedVector3Array(blackboard["prediction"]);
-	PackedFloat32Array direction = PackedFloat32Array(blackboard["pred_dir"]);
+	PackedVector3Array history = PackedVector3Array(p_blackboard["history"]);
+	PackedVector3Array prediction = PackedVector3Array(p_blackboard["prediction"]);
+	PackedFloat32Array direction = PackedFloat32Array(p_blackboard["pred_dir"]);
 	{
 		for (Vector3 elem : history) {
 			result.append(elem.x);
