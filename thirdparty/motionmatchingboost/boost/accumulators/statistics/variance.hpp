@@ -104,8 +104,8 @@ namespace impl
 
             if(cnt > 1)
             {
-                extractor<MeanFeature> mean;
-                result_type tmp = args[parameter::keyword<Tag>::get()] - mean(args);
+                extractor<MeanFeature> local_mean;
+                result_type tmp = args[parameter::keyword<Tag>::get()] - local_mean(args);
                 this->variance =
                     numeric::fdiv(this->variance * (cnt - 1), cnt)
                   + numeric::fdiv(tmp * tmp, cnt - 1);
