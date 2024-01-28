@@ -29,22 +29,24 @@
 /**************************************************************************/
 
 #include "motion_player.h"
+#include "scene/3d/skeleton_3d.h"
+#include "scene/3d/physics_body_3d.h"
 #include <cstdint>
 
 void MotionPlayer::set_skeleton_to_pose(Ref<Animation> animation, double time) {
-	auto the_char = cast_to<CharacterBody3D>(get_node(main_node));
-	auto skeleton = cast_to<Skeleton3D>(the_char->get_node(NodePath("Armature/GeneralSkeleton")));
-	for (auto bone_id = 0; bone_id < skeleton->get_bone_count(); ++bone_id) {
+	CharacterBody3D *the_char = cast_to<CharacterBody3D>(get_node(main_node));
+	Skeleton3D *current_skeleton = cast_to<Skeleton3D>(the_char->get_node(NodePath("Armature/GeneralSkeleton")));
+	for (auto bone_id = 0; bone_id < current_skeleton->get_bone_count(); ++bone_id) {
 		const auto bone_name = "%GeneralSkeleton:" + skeleton->get_bone_name(bone_id);
 		const auto pos_track = animation->find_track(NodePath(bone_name), Animation::TrackType::TYPE_POSITION_3D);
 		const auto rot_track = animation->find_track(NodePath(bone_name), Animation::TrackType::TYPE_ROTATION_3D);
 		if (pos_track >= 0) {
 			const Vector3 position = animation->position_track_interpolate(pos_track, time);
-			skeleton->set_bone_pose_position(bone_id, position * skeleton->get_motion_scale());
+			current_skeleton->set_bone_pose_position(bone_id, position * skeleton->get_motion_scale());
 		}
 		if (rot_track >= 0) {
 			const Quaternion rotation = animation->rotation_track_interpolate(rot_track, time);
-			skeleton->set_bone_pose_rotation(bone_id, rotation);
+			current_skeleton->set_bone_pose_rotation(bone_id, rotation);
 		}
 	}
 }
@@ -105,7 +107,7 @@ void MotionPlayer::baking_data() {
 	densities.resize(nb_dimensions);
 	densities.fill(PackedFloat32Array{ 0.0, 0.0 });
 
-	PackedFloat32Array data = PackedFloat32Array();
+	PackedFloat32Array current_data = PackedFloat32Array();
 	MotionData.clear();
 
 	db_anim_category.clear();
@@ -166,7 +168,7 @@ void MotionPlayer::baking_data() {
 			for (int64_t i = 0; i < nb_dimensions; ++i) {
 				data_stats[i](pose_data[i]);
 			}
-			data.append_array(pose_data);
+			current_data.append_array(pose_data);
 			// TODO Float to integer conversion ... needs better logic
 			db_anim_index.append(anim_index);
 			db_anim_timestamp.append(time);
@@ -200,19 +202,19 @@ void MotionPlayer::baking_data() {
 	}
 
 	// // Normalization
-	for (int64_t pose = 0; pose < data.size() / nb_dimensions; ++pose) {
+	for (int64_t pose = 0; pose < current_data.size() / nb_dimensions; ++pose) {
 		for (int offset = 0; offset < nb_dimensions; ++offset) {
-			data.write[pose * nb_dimensions + offset] = (data[pose * nb_dimensions + offset] - means[offset]) / variances[offset];
+			current_data.write[pose * nb_dimensions + offset] = (current_data[pose * nb_dimensions + offset] - means[offset]) / variances[offset];
 		}
 	}
-	MotionData = data.duplicate();
+	MotionData = current_data.duplicate();
 
 	print_line("Finished all animations");
-	print_line(vformat("NbDim %d NbPoses: %f Size: %d", nb_dimensions, data.size() / nb_dimensions, data.size()));
+	print_line(vformat("NbDim %d NbPoses: %f Size: %d", nb_dimensions, current_data.size() / nb_dimensions, current_data.size()));
 
 	Kdtree::KdNodeVector nodes{};
-	for (int64_t i = 0; i < data.size() / nb_dimensions; ++i) {
-		auto begin = data.ptr(), end = data.ptr(); // We use the ptr as iterator.
+	for (int64_t i = 0; i < current_data.size() / nb_dimensions; ++i) {
+		auto begin = current_data.ptr(), end = current_data.ptr(); // We use the ptr as iterator.
 		begin = std::next(begin, nb_dimensions * i);
 		end = std::next(begin, nb_dimensions);
 		std::vector<float> point(begin, end);
