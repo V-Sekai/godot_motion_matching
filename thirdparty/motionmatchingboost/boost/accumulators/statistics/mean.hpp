@@ -56,33 +56,33 @@ namespace impl
 
         template<typename Args>
         immediate_mean_impl(Args const &args)
-          : mean(numeric::fdiv(args[sample | Sample()], numeric::one<std::size_t>::value))
+          : local_mean(numeric::fdiv(args[sample | Sample()], numeric::one<std::size_t>::value))
         {
         }
 
         template<typename Args>
         void operator ()(Args const &args)
-        {
-            std::size_t cnt = count(args);
-            this->mean = numeric::fdiv(
-                (this->mean * (cnt - 1)) + args[parameter::keyword<Tag>::get()]
-              , cnt
-            );
+            {
+                std::size_t cnt = count(args);
+                this->local_mean = numeric::fdiv(
+                    (this->local_mean * (cnt - 1)) + args[parameter::keyword<Tag>::get()]
+                  , cnt
+                );
         }
 
         result_type result(dont_care) const
         {
-            return this->mean;
+            return this->local_mean;
         }
 
         template<class Archive>
         void serialize(Archive & ar, const unsigned int /* file_version */)
         {
-            ar & mean;
+            ar & local_mean;
         }
 
     private:
-        result_type mean;
+        result_type local_mean = 0;
     };
 
 } // namespace impl
