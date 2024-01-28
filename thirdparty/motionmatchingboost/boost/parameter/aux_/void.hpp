@@ -6,7 +6,7 @@
 #ifndef BOOST_PARAMETER_VOID_050329_HPP
 #define BOOST_PARAMETER_VOID_050329_HPP
 
-namespace motionmatchingboost { namespace parameter { 
+namespace motionmatchingboost { namespace parameter {
 
     // A placemarker for "no argument passed."
     // MAINTAINER NOTE: Do not make this into a metafunction

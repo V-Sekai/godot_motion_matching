@@ -76,6 +76,7 @@ namespace impl
                 motionmatchingboost::begin(args[extended_p_square_probabilities])
               , motionmatchingboost::end(args[extended_p_square_probabilities])
             )
+          , probability()
         {
         }
 

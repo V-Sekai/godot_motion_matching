@@ -24,7 +24,7 @@
 #include <boost/type_traits/is_array.hpp>
 #endif
 
-namespace motionmatchingboost { namespace parameter { 
+namespace motionmatchingboost { namespace parameter {
 
     template <typename Tag, typename T>
     struct template_keyword : ::motionmatchingboost::parameter::aux::template_keyword_base

@@ -33,18 +33,18 @@
 
 #include <boost/detail/workaround.hpp>
 
-#if BOOST_WORKAROUND(BOOST_MSVC, >= 1400)  
-# pragma warning(push)  
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1400)
+# pragma warning(push)
 # pragma warning(disable:4996) // 'std::equal': Function call with parameters that may be unsafe
-# pragma warning(disable:4510) // motionmatchingboost::array<T,N>' : default constructor could not be generated 
-# pragma warning(disable:4610) // warning C4610: class 'motionmatchingboost::array<T,N>' can never be instantiated - user defined constructor required 
+# pragma warning(disable:4510) // motionmatchingboost::array<T,N>' : default constructor could not be generated
+# pragma warning(disable:4610) // warning C4610: class 'motionmatchingboost::array<T,N>' can never be instantiated - user defined constructor required
 #endif
 
 #include <cstddef>
 #include <iterator>
 #include <stdexcept>
 #include <boost/assert.hpp>
-#include <boost/core/swap.hpp>
+#include <boost/core/invoke_swap.hpp>
 #include <boost/static_assert.hpp>
 
 #include <boost/throw_exception.hpp>
@@ -75,7 +75,7 @@ namespace motionmatchingboost {
         iterator        begin()       { return elems; }
         const_iterator  begin() const { return elems; }
         const_iterator cbegin() const { return elems; }
-        
+
         iterator        end()       { return elems+N; }
         const_iterator  end() const { return elems+N; }
         const_iterator cend() const { return elems+N; }
@@ -84,9 +84,9 @@ namespace motionmatchingboost {
 #if !defined(BOOST_MSVC_STD_ITERATOR) && !defined(BOOST_NO_STD_ITERATOR_TRAITS)
         typedef std::reverse_iterator<iterator> reverse_iterator;
         typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
-#elif defined(_RWSTD_NO_CLASS_PARTIAL_SPEC) 
-        typedef std::reverse_iterator<iterator, std::random_access_iterator_tag, 
-              value_type, reference, iterator, difference_type> reverse_iterator; 
+#elif defined(_RWSTD_NO_CLASS_PARTIAL_SPEC)
+        typedef std::reverse_iterator<iterator, std::random_access_iterator_tag,
+              value_type, reference, iterator, difference_type> reverse_iterator;
         typedef std::reverse_iterator<const_iterator, std::random_access_iterator_tag,
               value_type, const_reference, const_iterator, difference_type> const_reverse_iterator;
 #else
@@ -112,39 +112,39 @@ namespace motionmatchingboost {
         }
 
         // operator[]
-        reference operator[](size_type i) 
-        { 
-            return BOOST_ASSERT_MSG( i < N, "out of range" ), elems[i]; 
+        reference operator[](size_type i)
+        {
+            return BOOST_ASSERT_MSG( i < N, "out of range" ), elems[i];
         }
-        
-        /*BOOST_CONSTEXPR*/ const_reference operator[](size_type i) const 
-        {     
-            return BOOST_ASSERT_MSG( i < N, "out of range" ), elems[i]; 
+
+        /*BOOST_CONSTEXPR*/ const_reference operator[](size_type i) const
+        {
+            return BOOST_ASSERT_MSG( i < N, "out of range" ), elems[i];
         }
 
         // at() with range check
         reference                           at(size_type i)       { return rangecheck(i), elems[i]; }
         /*BOOST_CONSTEXPR*/ const_reference at(size_type i) const { return rangecheck(i), elems[i]; }
-    
+
         // front() and back()
-        reference front() 
-        { 
-            return elems[0]; 
-        }
-        
-        BOOST_CONSTEXPR const_reference front() const 
+        reference front()
         {
             return elems[0];
         }
-        
-        reference back() 
-        { 
-            return elems[N-1]; 
+
+        BOOST_CONSTEXPR const_reference front() const
+        {
+            return elems[0];
         }
-        
-        BOOST_CONSTEXPR const_reference back() const 
-        { 
-            return elems[N-1]; 
+
+        reference back()
+        {
+            return elems[N-1];
+        }
+
+        BOOST_CONSTEXPR const_reference back() const
+        {
+            return elems[N-1];
         }
 
         // size is constant
@@ -156,7 +156,7 @@ namespace motionmatchingboost {
         // swap (note: linear complexity)
         void swap (array<T,N>& y) {
             for (size_type i = 0; i < N; ++i)
-                motionmatchingboost::swap(elems[i],y.elems[i]);
+                motionmatchingboost::core::invoke_swap(elems[i],y.elems[i]);
         }
 
         // direct access to data (read-only)
@@ -213,9 +213,9 @@ namespace motionmatchingboost {
 #if !defined(BOOST_MSVC_STD_ITERATOR) && !defined(BOOST_NO_STD_ITERATOR_TRAITS)
         typedef std::reverse_iterator<iterator> reverse_iterator;
         typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
-#elif defined(_RWSTD_NO_CLASS_PARTIAL_SPEC) 
-        typedef std::reverse_iterator<iterator, std::random_access_iterator_tag, 
-              value_type, reference, iterator, difference_type> reverse_iterator; 
+#elif defined(_RWSTD_NO_CLASS_PARTIAL_SPEC)
+        typedef std::reverse_iterator<iterator, std::random_access_iterator_tag,
+              value_type, reference, iterator, difference_type> reverse_iterator;
         typedef std::reverse_iterator<const_iterator, std::random_access_iterator_tag,
               value_type, const_reference, const_iterator, difference_type> const_reverse_iterator;
 #else
@@ -301,7 +301,7 @@ namespace motionmatchingboost {
         // assign one value to all elements
         void assign (const T& value) { fill ( value ); }
         void fill   (const T& ) {}
-        
+
         // check range (may be private because it is static)
         static reference failed_rangecheck () {
                 std::out_of_range e("attempt to access element of an empty array");
@@ -353,16 +353,16 @@ namespace motionmatchingboost {
 #if defined(__SUNPRO_CC)
 //  Trac ticket #4757; the Sun Solaris compiler can't handle
 //  syntax like 'T(&get_c_array(motionmatchingboost::array<T,N>& arg))[N]'
-//  
-//  We can't just use this for all compilers, because the 
-//      borland compilers can't handle this form. 
+//
+//  We can't just use this for all compilers, because the
+//      borland compilers can't handle this form.
     namespace detail {
        template <typename T, std::size_t N> struct c_array
        {
            typedef T type[N];
        };
     }
-    
+
    // Specific for motionmatchingboost::array: simply returns its elems data member.
    template <typename T, std::size_t N>
    typename detail::c_array<T,N>::type& get_c_array(motionmatchingboost::array<T,N>& arg)
@@ -383,7 +383,7 @@ namespace motionmatchingboost {
     {
         return arg.elems;
     }
-    
+
     // Const version.
     template <typename T, std::size_t N>
     const T(&get_c_array(const motionmatchingboost::array<T,N>& arg))[N]
@@ -391,7 +391,7 @@ namespace motionmatchingboost {
         return arg.elems;
     }
 #endif
-    
+
 #if 0
     // Overload for std::array, assuming that std::array will have
     // explicit conversion functions as discussed at the WG21 meeting
@@ -401,7 +401,7 @@ namespace motionmatchingboost {
     {
         return static_cast<T(&)[N]>(arg);
     }
-    
+
     // Const version.
     template <typename T, std::size_t N>
     const T(&get_c_array(const std::array<T,N>& arg))[N]
@@ -423,7 +423,7 @@ namespace motionmatchingboost {
        BOOST_STATIC_ASSERT_MSG ( Idx < N, "motionmatchingboost::get<>(motionmatchingboost::array &) index out of range" );
        return arr[Idx];
        }
-    
+
    template <size_t Idx, typename T, size_t N>
    const T &get(const motionmatchingboost::array<T,N> &arr) BOOST_NOEXCEPT {
        BOOST_STATIC_ASSERT_MSG ( Idx < N, "motionmatchingboost::get<>(const motionmatchingboost::array &) index out of range" );
@@ -440,7 +440,7 @@ namespace std {
        BOOST_STATIC_ASSERT_MSG ( Idx < N, "std::get<>(motionmatchingboost::array &) index out of range" );
        return arr[Idx];
        }
-    
+
    template <size_t Idx, typename T, size_t N>
    const T &get(const motionmatchingboost::array<T,N> &arr) BOOST_NOEXCEPT {
        BOOST_STATIC_ASSERT_MSG ( Idx < N, "std::get<>(const motionmatchingboost::array &) index out of range" );
@@ -449,8 +449,8 @@ namespace std {
 }
 #endif
 
-#if BOOST_WORKAROUND(BOOST_MSVC, >= 1400)  
-# pragma warning(pop)  
-#endif 
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1400)
+# pragma warning(pop)
+#endif
 
 #endif /*BOOST_ARRAY_HPP*/

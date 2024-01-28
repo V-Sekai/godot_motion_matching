@@ -34,6 +34,11 @@ namespace motionmatchingboost { namespace accumulators
             {
             }
 
+            add_ref_visitor(add_ref_visitor const &other)
+              : args_(other.args_)
+            {
+            }
+
             template<typename Accumulator>
             void operator ()(Accumulator &acc) const
             {
@@ -49,6 +54,7 @@ namespace motionmatchingboost { namespace accumulators
             }
 
         private:
+            BOOST_DELETED_FUNCTION(add_ref_visitor &operator =(add_ref_visitor const &))
             Args const &args_;
         };
 
@@ -86,7 +92,7 @@ namespace motionmatchingboost { namespace accumulators
             }
 
         private:
-            drop_visitor &operator =(drop_visitor const &);
+            BOOST_DELETED_FUNCTION(drop_visitor &operator =(drop_visitor const &))
             Args const &args_;
         };
 
@@ -226,7 +232,7 @@ namespace motionmatchingboost { namespace accumulators
         }
 
     private:
-        with_cached_result &operator =(with_cached_result const &);
+        BOOST_DELETED_FUNCTION(with_cached_result &operator =(with_cached_result const &))
 
         void set(result_type const &r)
         {
