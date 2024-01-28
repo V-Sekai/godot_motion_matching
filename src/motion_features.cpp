@@ -240,8 +240,6 @@ float BonePositionVelocityMotionFeature::get_weight_bone_pos() const {
 }
 
 void BonePositionVelocityMotionFeature::_bind_methods() {
-	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "BonePositionVelocityMotionFeature"), "set_weight_bone_pos", "get_weight_bone_pos");
-	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "BonePositionVelocityMotionFeature"), "set_weight_bone_vel", "get_weight_bone_vel");
 	ClassDB::bind_method(D_METHOD("set_to_skeleton", "value"), &BonePositionVelocityMotionFeature::set_to_skeleton);
 	ClassDB::bind_method(D_METHOD("get_to_skeleton"), &BonePositionVelocityMotionFeature::get_to_skeleton);
 	ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "Skeleton", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "Skeleton3D"), "set_to_skeleton", "get_to_skeleton");
@@ -249,12 +247,6 @@ void BonePositionVelocityMotionFeature::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_bone_names", "value"), &BonePositionVelocityMotionFeature::set_bone_names);
 	ClassDB::bind_method(D_METHOD("get_bone_names"), &BonePositionVelocityMotionFeature::get_bone_names);
 	ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "Bones"), "set_bone_names", "get_bone_names");
-
-	ClassDB::bind_method(D_METHOD("get_dimension"), &BonePositionVelocityMotionFeature::get_dimension);
-	ClassDB::bind_method(D_METHOD("setup_nodes", "character"), &BonePositionVelocityMotionFeature::setup_nodes);
-
-	ClassDB::bind_method(D_METHOD("setup_for_animation", "animation"), &RootVelocityMotionFeature::setup_for_animation);
-	ClassDB::bind_method(D_METHOD("bake_animation_pose", "animation", "time"), &RootVelocityMotionFeature::bake_animation_pose);
 
 	ClassDB::bind_method(D_METHOD("broadphase_query_pose", "blackboard", "delta"), &BonePositionVelocityMotionFeature::broadphase_query_pose);
 	// ClassDB::bind_method( D_METHOD("narrowphase_evaluate_cost","data_to_evaluate"), &RootVelocityMotionFeature::narrowphase_evaluate_cost);

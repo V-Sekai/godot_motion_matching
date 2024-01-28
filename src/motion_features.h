@@ -172,17 +172,9 @@ protected:
 		ClassDB::bind_method(D_METHOD("set_root_bone_name", "value"), &RootVelocityMotionFeature::set_root_bone_name, DEFVAL("%GeneralSkeleton:Root"));
 		ClassDB::bind_method(D_METHOD("get_root_bone_name"), &RootVelocityMotionFeature::get_root_bone_name);
 		ADD_PROPERTY(PropertyInfo(Variant::STRING, "Root Bone"), "set_root_bone_name", "get_root_bone_name");
-
-		ClassDB::bind_method(D_METHOD("get_dimension"), &RootVelocityMotionFeature::get_dimension);
-		ClassDB::bind_method(D_METHOD("setup_nodes", "character"), &RootVelocityMotionFeature::setup_nodes);
-
 		// ClassDB::bind_method( D_METHOD("setup_for_animation","animation"), &RootVelocityMotionFeature::setup_for_animation);
 		// ClassDB::bind_method( D_METHOD("bake_animation_pose","animation","time"), &RootVelocityMotionFeature::bake_animation_pose);
-
-		ClassDB::bind_method(D_METHOD("broadphase_query_pose", "blackboard", "delta"), &RootVelocityMotionFeature::broadphase_query_pose);
 		// ClassDB::bind_method( D_METHOD("narrowphase_evaluate_cost","data_to_evaluate"), &RootVelocityMotionFeature::narrowphase_evaluate_cost);
-
-		ClassDB::bind_method(D_METHOD("debug_pose_gizmo", "gizmo", "data", "root_transform"), &RootVelocityMotionFeature::debug_pose_gizmo);
 	}
 
 	virtual void debug_pose_gizmo(Ref<RefCounted> p_gizmo, const PackedFloat32Array data, Transform3D tr = Transform3D{}) override {
