@@ -215,7 +215,7 @@ void MotionPlayer::baking_data() {
 
 	Kdtree::KdNodeVector nodes{};
 	for (int64_t i = 0; i < current_data.size() / nb_dimensions; ++i) {
-		const float *begin = current_data.ptr(), end = current_data.ptr(); // We use the ptr as iterator.
+		auto begin = current_data.ptr(), end = current_data.ptr(); // We use the ptr as iterator.
 		begin = std::next(begin, nb_dimensions * i);
 		end = std::next(begin, nb_dimensions);
 		std::vector<float> point(begin, end);
