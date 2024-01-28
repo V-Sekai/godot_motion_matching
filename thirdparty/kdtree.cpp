@@ -207,16 +207,16 @@ KdTree::KdTree(const KdNodeVector* p_nodes, int p_distance_type /*=2*/) {
 }
 
 // distance_type can be 0 (Maximum), 1 (Manhatten), or 2 (Euklidean [squared])
-void KdTree::set_distance(int distance_type,
-                          const WeightVector* weights /*=NULL*/) {
+void KdTree::set_distance(int p_distance_type,
+                          const WeightVector* p_weights /*=NULL*/) {
   if (distance) delete distance;
-  this->distance_type = distance_type;
-  if (distance_type == 0) {
-    distance = (DistanceMeasure*)new DistanceL0(weights);
-  } else if (distance_type == 1) {
-    distance = (DistanceMeasure*)new DistanceL1(weights);
+  this->distance_type = p_distance_type;
+  if (p_distance_type == 0) {
+    distance = (DistanceMeasure*)new DistanceL0(p_weights);
+  } else if (p_distance_type == 1) {
+    distance = (DistanceMeasure*)new DistanceL1(p_weights);
   } else {
-    distance = (DistanceMeasure*)new DistanceL2(weights);
+    distance = (DistanceMeasure*)new DistanceL2(p_weights);
   }
 }
 
