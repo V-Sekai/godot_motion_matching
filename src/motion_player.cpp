@@ -33,8 +33,7 @@
 #include "scene/3d/skeleton_3d.h"
 #include <cstdint>
 
-		void
-		MotionPlayer::set_skeleton_to_pose(Ref<Animation> animation, double time) {
+void MotionPlayer::set_skeleton_to_pose(Ref<Animation> animation, double time) {
 	CharacterBody3D *the_char = cast_to<CharacterBody3D>(get_node(main_node));
 	Skeleton3D *current_skeleton = cast_to<Skeleton3D>(the_char->get_node(NodePath("Armature/GeneralSkeleton")));
 	for (auto bone_id = 0; bone_id < current_skeleton->get_bone_count(); ++bone_id) {
