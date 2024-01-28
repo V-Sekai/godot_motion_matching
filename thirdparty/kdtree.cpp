@@ -177,25 +177,25 @@ KdTree::~KdTree() {
   delete distance;
 }
 // distance_type can be 0 (Maximum), 1 (Manhatten), or 2 (Euklidean [squared])
-KdTree::KdTree(const KdNodeVector* nodes, int distance_type /*=2*/) {
+KdTree::KdTree(const KdNodeVector* p_nodes, int p_distance_type /*=2*/) {
 
   size_t i, j;
   float val;
   KdNodeVector defaultNodes;
-  if (!nodes || nodes->empty()) {
-    nodes = &defaultNodes;
+  if (!p_nodes || p_nodes->empty()) {
+    p_nodes = &defaultNodes;
   }
 
-  dimension = nodes->begin()->point.size();
-  allnodes = *nodes;
+  dimension = p_nodes->begin()->point.size();
+  allnodes = *p_nodes;
   // initialize distance values
   distance = NULL;
   this->distance_type = -1;
-  set_distance(distance_type);
+  set_distance(p_distance_type);
   // compute global bounding box
-  lobound = nodes->begin()->point;
-  upbound = nodes->begin()->point;
-  for (i = 1; i < nodes->size(); i++) {
+  lobound = p_nodes->begin()->point;
+  upbound = p_nodes->begin()->point;
+  for (i = 1; i < p_nodes->size(); i++) {
     for (j = 0; j < dimension; j++) {
       val = allnodes[i].point[j];
       if (lobound[j] > val) lobound[j] = val;
