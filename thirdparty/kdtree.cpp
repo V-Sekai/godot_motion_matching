@@ -206,7 +206,7 @@ KdTree::KdTree(const KdNodeVector* p_nodes, int p_distance_type /*=2*/) {
   root = build_tree(0, 0, allnodes.size());
 }
 
-// distance_type can be 0 (Maximum), 1 (Manhatten), or 2 (Euklidean [squared])
+// distance_type can be 0 (Maximum), 1 (Manhatten), or 2 (Euclidean [squared])
 void KdTree::set_distance(int p_distance_type,
                           const WeightVector* p_weights /*=NULL*/) {
   if (distance) delete distance;
