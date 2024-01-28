@@ -10,5 +10,9 @@ env_motion_matching.add_source_files(env.modules_sources, "*.cpp")
 env_motion_matching.add_source_files(env.modules_sources, "src/*.cpp")
 env_motion_matching.add_source_files(env.modules_sources, "thirdparty/*.cpp")
 
+if not env.msvc:
+    env_motion_matching.Append(CCFLAGS=["-Wno-error=non-virtual-dtor"])
+    env_motion_matching.Append(CCFLAGS=["-Wno-error=ctor-dtor-privacy"])
+
 if env.editor_build:
     env_motion_matching.add_source_files(env.modules_sources, "editor/*.cpp")
