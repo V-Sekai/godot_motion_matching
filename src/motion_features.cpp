@@ -424,13 +424,13 @@ PackedFloat32Array PredictionMotionFeature::broadphase_query_pose(Dictionary p_b
 }
 
 void PredictionMotionFeature::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("set_weight_history_pos"), &PredictionMotionFeature::set_weight_history_pos);
+	ClassDB::bind_method(D_METHOD("set_weight_history_pos", "position"), &PredictionMotionFeature::set_weight_history_pos);
 	ClassDB::bind_method(D_METHOD("get_weight_history_pos"), &PredictionMotionFeature::get_weight_history_pos);
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "weight_history_pos"), "set_weight_history_pos", "get_weight_history_pos");
-	ClassDB::bind_method(D_METHOD("set_weight_prediction_pos"), &PredictionMotionFeature::set_weight_prediction_pos);
+	ClassDB::bind_method(D_METHOD("set_weight_prediction_pos", "position"), &PredictionMotionFeature::set_weight_prediction_pos);
 	ClassDB::bind_method(D_METHOD("get_weight_prediction_pos"), &PredictionMotionFeature::get_weight_prediction_pos);
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "weight_prediction_pos"), "set_weight_prediction_pos", "get_weight_prediction_pos");
-	ClassDB::bind_method(D_METHOD("set_weight_prediction_angle"), &PredictionMotionFeature::set_weight_prediction_angle);
+	ClassDB::bind_method(D_METHOD("set_weight_prediction_angle", "angle"), &PredictionMotionFeature::set_weight_prediction_angle);
 	ClassDB::bind_method(D_METHOD("get_weight_prediction_angle"), &PredictionMotionFeature::get_weight_prediction_angle);
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "weight_prediction_angle"), "set_weight_prediction_angle", "get_weight_prediction_angle");
 
