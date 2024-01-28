@@ -49,10 +49,11 @@ __pycache__/
 x86/
 !modules/motion_matching/thirdparty/motionmatchingboost/boost/predef/architecture/x86/
 
+![Dd]ebug/
+![Rr]elease/
+
 [Aa][Rr][Mm]/
 !modules/motion_matching/thirdparty/motionmatchingboost/boost/predef/hardware/simd/arm/
 !modules/motion_matching/thirdparty/motionmatchingboost/bin.v2/config.log
 !modules/motion_matching/thirdparty/motionmatchingboost/boost/predef/architecture/x86/
 !modules/motion_matching/thirdparty/motionmatchingboost/boost/predef/hardware/simd/arm/
-!modules/motion_matching/thirdparty/motionmatchingboost/tools/build/test/prebuilt/ext/debug/
-!modules/motion_matching/thirdparty/motionmatchingboost/tools/build/test/prebuilt/ext/release/
