@@ -29,8 +29,11 @@
 /**************************************************************************/
 
 #include "motion_player.h"
+<<<<<<< HEAD
 #include "scene/3d/skeleton_3d.h"
 #include "scene/3d/physics_body_3d.h"
+=======
+>>>>>>> refs/subrepo/modules/motion_matching/fetch
 #include <cstdint>
 
 void MotionPlayer::set_skeleton_to_pose(Ref<Animation> animation, double time) {
@@ -214,7 +217,7 @@ void MotionPlayer::baking_data() {
 
 	Kdtree::KdNodeVector nodes{};
 	for (int64_t i = 0; i < current_data.size() / nb_dimensions; ++i) {
-		auto begin = current_data.ptr(), end = current_data.ptr(); // We use the ptr as iterator.
+		auto begin = data.ptr(), end = current_data.ptr(); // We use the ptr as iterator.
 		begin = std::next(begin, nb_dimensions * i);
 		end = std::next(begin, nb_dimensions);
 		std::vector<float> point(begin, end);
