@@ -38,8 +38,8 @@ namespace impl
         template<typename Args>
         result_type result(Args const &args) const
         {
-            extractor<SumFeature> sum;
-            return numeric::fdiv(sum(args), count(args));
+            extractor<SumFeature> sum_feature;
+            return numeric::fdiv(sum_feature(args), count(args));
         }
 
         // serialization is done by accumulators it depends on
